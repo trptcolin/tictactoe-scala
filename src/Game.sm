@@ -1,0 +1,69 @@
+%class Game
+
+// %package com.acme.supercron
+// %access package
+
+%start GameFSM::Starting
+%map GameFSM
+%%
+
+Starting
+{
+    GameTypeChosen(gameType: String)    Player1 {}
+}
+
+Player1
+Entry {
+    refreshBoardState();
+    getNextMove(0, ctxt.board);
+}
+{   
+    PickSquare(board: Board, square: Int)
+        [ctxt.isValidMove(board, square) == true]
+            Player2 { playerMove(0, square); }
+
+    PickSquare(board: Board, square: Int)
+        [ctxt.over()]
+            Ending {}
+                                   
+    PickSquare(board: Board, square: Int)
+        Player1 {}
+
+    GameOver     Ending {}
+}
+
+Player2
+Entry {
+    refreshBoardState();
+    getNextMove(1, ctxt.board);
+}
+{
+    PickSquare(board: Board, square: Int)
+        [ctxt.isValidMove(board, square)]
+            Player1 { playerMove(1, square); }
+
+    PickSquare(board: Board, square: Int)
+        [ctxt.over()]
+            Ending {}
+
+    PickSquare(board: Board, square: Int)
+        Player2 {}
+
+    GameOver     Ending {}
+}
+
+// how do we get to the ending?
+
+Ending
+{
+    PlayAgain   Starting    {}
+    Quit        Ended       {}
+}
+
+Ended
+{
+
+}
+
+
+%%
