@@ -4,7 +4,7 @@ import org.scalatest.Spec
 class ConsoleDisplaySpec extends Spec with ShouldMatchers {
   describe("ConsoleDisplay") {
     it("should display an empty board") {
-      val display = ConsoleDisplay.toString(new MockBoard())
+      val display = ConsoleDisplay.stringify(new MockBoard())
 
       val expectedDisplay = """ |   |   |   
                                 |-----------
@@ -26,7 +26,7 @@ class ConsoleDisplaySpec extends Spec with ShouldMatchers {
                                   move("X", 6).
                                   move("O", 7).
                                   move("X", 8)
-      val display = ConsoleDisplay.toString(board)
+      val display = ConsoleDisplay.stringify(board)
 
       val expectedDisplay = """ | X | O | X 
                                 |-----------

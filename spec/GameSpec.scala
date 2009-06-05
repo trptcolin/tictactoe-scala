@@ -2,14 +2,15 @@ import java.io.ByteArrayOutputStream
 import org.scalatest.matchers.ShouldMatchers
 import org.scalatest.Spec
 
-class ConsoleGameSpec extends Spec with ShouldMatchers {
-  describe("ConsoleGameSpec"){
+class GameSpec extends Spec with ShouldMatchers {
+  describe("GameSpec"){
     it("should recognize game over for full board"){
       val board = new MockBoard()
       board.setFull(true)
       val player1 = new MockPlayer("X")
       val player2 = new MockPlayer("O")
-      val game = new ConsoleGame(board, Array(player1, player2))
+      val display = new MockDisplay()
+      val game = new Game(board, Array(player1, player2), display)
 
       game.over(board) should be(true)
     }
@@ -19,7 +20,8 @@ class ConsoleGameSpec extends Spec with ShouldMatchers {
       board.setWon(true)
       val player1 = new MockPlayer("X")
       val player2 = new MockPlayer("O")
-      val game = new ConsoleGame(board, Array(player1, player2))
+      val display = new MockDisplay()
+      val game = new Game(board, Array(player1, player2), display)
 
       game.over(board) should be(true)
     }
@@ -28,7 +30,8 @@ class ConsoleGameSpec extends Spec with ShouldMatchers {
       val board = new MockBoard()
       val player1 = new MockPlayer("X")
       val player2 = new MockPlayer("O")
-      val game = new ConsoleGame(board, Array(player1, player2))
+      val display = new MockDisplay()
+      val game = new Game(board, Array(player1, player2), display)
 
       game.over(board) should equal(false)
     }
@@ -77,7 +80,8 @@ class ConsoleGameSpec extends Spec with ShouldMatchers {
       val board = new MockBoard()
       val player1 = new MockPlayer("X")
       val player2 = new MockPlayer("O")
-      val game = new ConsoleGame(board, Array(player1, player2))
+      val display = new MockDisplay()
+      val game = new Game(board, Array(player1, player2), display)
 
       val realOut = Console.out
       val out = new ByteArrayOutputStream()
@@ -95,7 +99,8 @@ class ConsoleGameSpec extends Spec with ShouldMatchers {
       val board = new MockBoard()
       val player1 = new MockPlayer("X")
       val player2 = new MockPlayer("O")
-      val game = new ConsoleGame(board, Array(player1, player2))
+      val display = new MockDisplay()
+      val game = new Game(board, Array(player1, player2), display)
 
       game.isValidMove(board, 0) should be (true)
     }
@@ -107,9 +112,24 @@ class ConsoleGameSpec extends Spec with ShouldMatchers {
         null, null, null))
       val player1 = new MockPlayer("X")
       val player2 = new MockPlayer("O")
-      val game = new ConsoleGame(board, Array(player1, player2))
+      val display = new MockDisplay()
+
+      val game = new Game(board, Array(player1, player2), display)
 
       game.isValidMove(board, 0) should be (false)
+    }
+
+    it("should refresh board state") {
+      val board = new MockBoard()
+      val player1 = new MockPlayer("X")
+      val player2 = new MockPlayer("O")
+      val display = new MockDisplay()
+
+      val game = new Game(board, Array(player1, player2), display)
+
+      game.refreshBoardState()
+
+      display.timesRefreshed should equal (1)
     }
 
   }

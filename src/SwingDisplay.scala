@@ -2,9 +2,12 @@ import java.awt.{Color, Font}
 import swing.{GridPanel, Label, Frame}
 import javax.swing.BorderFactory
 
-class SwingGame(frame: Frame, startingBoard: Board, players: Array[Player]) extends Game(startingBoard, players) {
+class SwingDisplay(frame: Frame) extends Display {
+  val board = new BoardImpl()
 
-  def refreshBoardState() ={
+  setFrameAttributes(frame, board)
+
+  def refreshBoardState(board: Board) ={
     setFrameAttributes(frame, board)
   }
 

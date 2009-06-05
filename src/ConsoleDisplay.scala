@@ -1,6 +1,18 @@
+class ConsoleDisplay extends Display {
+  // TODO: test me
+  def refreshBoardState(board: Board): Unit = {
+    Console.println(ConsoleDisplay.stringify(board))
+  }
+  // TODO: test me
+  def refreshBoardState(board: Board, str: String): Unit = {
+    Console.println(str)
+    refreshBoardState(board)
+  }
+}
+
 object ConsoleDisplay {
   
-  def toString(board: Board): String = {
+  def stringify(board: Board): String = {
     def stringForPosition(position: Int): String = {
       val mark = board.positions(position)
       if(mark == null)

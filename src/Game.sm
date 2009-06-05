@@ -1,8 +1,5 @@
 %class Game
 
-// %package com.acme.supercron
-// %access package
-
 %start GameFSM::Starting
 %map GameFSM
 %%
@@ -14,13 +11,17 @@ Starting
 
 Player1
 Entry {
+    // test me
     refreshBoardState();
     getNextMove(0, ctxt.board);
 }
 {   
     PickSquare(board: Board, square: Int)
         [ctxt.isValidMove(board, square) == true]
-            Player2 { playerMove(0, square); }
+            Player2 {
+                // test me
+                playerMove(0, square);
+                }
 
     PickSquare(board: Board, square: Int)
         [ctxt.over()]
@@ -34,12 +35,14 @@ Entry {
 
 Player2
 Entry {
+    // test me
     refreshBoardState();
     getNextMove(1, ctxt.board);
 }
 {
     PickSquare(board: Board, square: Int)
         [ctxt.isValidMove(board, square)]
+            // test me
             Player1 { playerMove(1, square); }
 
     PickSquare(board: Board, square: Int)
@@ -51,8 +54,6 @@ Entry {
 
     GameOver     Ending {}
 }
-
-// how do we get to the ending?
 
 Ending
 {

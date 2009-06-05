@@ -1,11 +1,24 @@
 import org.scalatest.Spec
 import org.scalatest.matchers.ShouldMatchers
 
-class BoardImplSpec extends Spec with ShouldMatchers {
-  describe("BoardImpl"){
+class TestBoard(val positions: List[String]) extends Board {
+  def this() ={
+    this (List[String](
+      null, null, null,
+      null, null, null,
+      null, null, null))
+  }
+
+  def move(mark: String, position: Int): Board ={
+    return new TestBoard(newPositions(mark, position))
+  }
+}
+
+class BoardSpec extends Spec with ShouldMatchers {
+  describe("Board"){
 
     it("should not be full"){
-      val board = new BoardImpl
+      val board = new TestBoard()
 
       board.wonBy("X") should be(false)
       board should not be ('full)
@@ -16,7 +29,7 @@ class BoardImplSpec extends Spec with ShouldMatchers {
         "X", "X", "X",
         "X", "X", "X",
         "X", "X", "X")
-      val board = new BoardImpl(positions)
+      val board = new TestBoard(positions)
 
       board should be('full)
     }
@@ -27,7 +40,7 @@ class BoardImplSpec extends Spec with ShouldMatchers {
         null, null, null,
         null, null, null)
 
-      val board = new BoardImpl(positions)
+      val board = new TestBoard(positions)
 
       board.won should be(true)
     }
@@ -38,7 +51,7 @@ class BoardImplSpec extends Spec with ShouldMatchers {
         null, null, null,
         null, null, null)
 
-      val board = new BoardImpl(positions)
+      val board = new TestBoard(positions)
 
       board.wonBy("X") should be(true)
     }
@@ -48,7 +61,7 @@ class BoardImplSpec extends Spec with ShouldMatchers {
         null, null, null,
         "X", "X", "X",
         null, null, null)
-      val board = new BoardImpl(positions)
+      val board = new TestBoard(positions)
 
       board.wonBy("X") should be(true)
     }
@@ -58,7 +71,7 @@ class BoardImplSpec extends Spec with ShouldMatchers {
         null, null, null,
         null, null, null,
         "X", "X", "X")
-      val board = new BoardImpl(positions)
+      val board = new TestBoard(positions)
 
       board.wonBy("X") should be(true)
     }
@@ -68,7 +81,7 @@ class BoardImplSpec extends Spec with ShouldMatchers {
         "X", null, null,
         "X", null, null,
         "X", null, null)
-      val board = new BoardImpl(positions)
+      val board = new TestBoard(positions)
 
       board.wonBy("X") should be(true)
     }
@@ -78,7 +91,7 @@ class BoardImplSpec extends Spec with ShouldMatchers {
         null, "X", null,
         null, "X", null,
         null, "X", null)
-      val board = new BoardImpl(positions)
+      val board = new TestBoard(positions)
 
       board.wonBy("X") should be(true)
     }
@@ -88,7 +101,7 @@ class BoardImplSpec extends Spec with ShouldMatchers {
         null, null, "X",
         null, null, "X",
         null, null, "X")
-      val board = new BoardImpl(positions)
+      val board = new TestBoard(positions)
 
       board.wonBy("X") should be(true)
     }
@@ -97,7 +110,7 @@ class BoardImplSpec extends Spec with ShouldMatchers {
       val positions = List("X", null, null,
         null, "X", null,
         null, null, "X")
-      val board = new BoardImpl(positions)
+      val board = new TestBoard(positions)
 
       board.wonBy("X") should be(true)
     }
@@ -106,13 +119,13 @@ class BoardImplSpec extends Spec with ShouldMatchers {
       val positions = List(null, null, "X",
         null, "X", null,
         "X", null, null)
-      val board = new BoardImpl(positions)
+      val board = new TestBoard(positions)
 
       board.wonBy("X") should be(true)
     }
 
     it("should populate a square"){
-      val board = new BoardImpl().move("X", 0)
+      val board = new TestBoard().move("X", 0)
 
       board.positions(0) should equal("X")
 
@@ -121,13 +134,13 @@ class BoardImplSpec extends Spec with ShouldMatchers {
     }
 
     it("should recognize a move as invalid - out of range"){
-      val board = new BoardImpl()
+      val board = new TestBoard()
 
       board.invalidMove(12) should equal(true)
     }
 
     it("should recognize a move as invalid - taken"){
-      val board = new BoardImpl().move("X", 0)
+      val board = new TestBoard().move("X", 0)
 
       board.invalidMove(0) should equal(true)
     }
@@ -136,7 +149,7 @@ class BoardImplSpec extends Spec with ShouldMatchers {
       val positions = List(null, null, null,
         null, null, null,
         "X", "X", "X")
-      val board = new BoardImpl(positions)
+      val board = new TestBoard(positions)
 
       board.openPositions should equal(List(0, 1, 2, 3, 4, 5))
     }

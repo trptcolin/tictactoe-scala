@@ -1,6 +1,10 @@
+import collection.immutable.HashMap
+
 class ComputerPlayer(val playerMark: String) extends Player {
   val searchDepth = 9
   val highScore = 1000
+  
+  var scoringHash: Map[(String, String), Int] = new HashMap[(String, String), Int]()
 
   def move(board: Board): Int ={
     val positionsWithScores = board.openPositions.map(
@@ -18,26 +22,46 @@ class ComputerPlayer(val playerMark: String) extends Player {
   }
 
   private def scoreFor(board: Board): Int ={
-    def scoreForDepth(board: Board, mark: String, depth: Int): Int ={
-      if (board.wonBy(mark))
-        return highScore - depth
-      else if (board.won)
-        return -highScore + depth
-      else if (board.full || depth > searchDepth)
-        return 0 + depth
-      else{
-        val otherMark = Player.otherMark(mark)
-        val possibleResults = board.openPositions.map(board.move(otherMark, _))
-        val possibleScores = possibleResults.map{
-          scoreForDepth(_, otherMark, depth + 1)
-        }
-        val bestScoreForOpponent = possibleScores.reduceLeft{
-          (a, b) =>
-                  if (a < b) b
-                  else a
-        }
 
-        return -bestScoreForOpponent
+    def scoreForDepth(board: Board, mark: String, depth: Int): Int ={
+
+      def cachingValue(value: Int): Int = {
+        if(!scoringHash.contains((board.positions.toString, mark)))
+          scoringHash += ((board.positions.toString, mark) -> value)
+
+        return value
+      }
+
+      def calculateScore(): Int = {
+        val otherMark = Player.otherMark(mark)
+        
+        if (board.wonBy(mark))
+          return highScore - depth
+        else if (board.won)
+          return -highScore + depth
+        else if (board.full || depth > searchDepth)
+          return 0 + depth
+        else{
+          val possibleResultBoards = board.openPositions.map(board.move(otherMark, _))
+          val possibleScores = possibleResultBoards.map{
+            scoreForDepth(_, otherMark, depth + 1)
+          }
+          val bestScoreForOpponent = possibleScores.reduceLeft{
+            (a, b) =>
+                    if (a < b) b
+                    else a
+          }
+
+          return -bestScoreForOpponent
+        }
+      }
+
+
+      if(scoringHash.contains((board.positions.toString, mark))) {
+        return scoringHash((board.positions.toString, mark))
+      }
+      else {
+        return cachingValue(calculateScore())
       }
     }
 
