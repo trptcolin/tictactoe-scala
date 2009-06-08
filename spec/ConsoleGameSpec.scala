@@ -1,10 +1,29 @@
+import java.io.ByteArrayOutputStream
 import org.scalatest.matchers.ShouldMatchers
 import org.scalatest.Spec
 
-class ConsoleDisplaySpec extends Spec with ShouldMatchers {
-  describe("ConsoleDisplay") {
+class ConsoleGameSpec extends Spec with ShouldMatchers {
+  describe("ConsoleGame") {
+    it("should refresh board state") {
+
+      val board = new MockBoard()
+      val player1 = new MockPlayer("X")
+      val player2 = new MockPlayer("O")
+      val game = new ConsoleGame(board, Array(player1, player2))
+
+      val stdout = Console.out
+      val out = new ByteArrayOutputStream()
+      Console.setOut(out)
+      game.refreshBoardState(board)
+      Console.setOut(stdout)
+
+      val expectedOut = ConsoleGame.stringify(board) + "\n"
+
+      out.toString should equal(expectedOut)
+    }
+
     it("should display an empty board") {
-      val display = ConsoleDisplay.stringify(new MockBoard())
+      val display = ConsoleGame.stringify(new MockBoard())
 
       val expectedDisplay = """ |   |   |   
                                 |-----------
@@ -26,7 +45,7 @@ class ConsoleDisplaySpec extends Spec with ShouldMatchers {
                                   move("X", 6).
                                   move("O", 7).
                                   move("X", 8)
-      val display = ConsoleDisplay.stringify(board)
+      val display = ConsoleGame.stringify(board)
 
       val expectedDisplay = """ | X | O | X 
                                 |-----------

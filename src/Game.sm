@@ -5,8 +5,9 @@
 %%
 
 Starting
+Entry { decideGameType(); }
 {
-    GameTypeChosen(gameType: String)    Player1 {}
+    GameTypeChosen(gameType: String)    Player1 { clearBoard(); }
 }
 
 Player1
@@ -17,18 +18,10 @@ Entry {
 }
 {   
     PickSquare(board: Board, square: Int)
-        [ctxt.isValidMove(board, square) == true]
             Player2 {
                 // test me
                 playerMove(0, square);
-                }
-
-    PickSquare(board: Board, square: Int)
-        [ctxt.over()]
-            Ending {}
-                                   
-    PickSquare(board: Board, square: Int)
-        Player1 {}
+            }
 
     GameOver     Ending {}
 }
@@ -40,31 +33,17 @@ Entry {
     getNextMove(1, ctxt.board);
 }
 {
-    PickSquare(board: Board, square: Int)
-        [ctxt.isValidMove(board, square)]
-            // test me
-            Player1 { playerMove(1, square); }
-
-    PickSquare(board: Board, square: Int)
-        [ctxt.over()]
-            Ending {}
-
-    PickSquare(board: Board, square: Int)
-        Player2 {}
+    // test me
+    PickSquare(board: Board, square: Int)   Player1     { playerMove(1, square); }
 
     GameOver     Ending {}
 }
 
 Ending
+Entry { decidePlayAgain(); }
 {
     PlayAgain   Starting    {}
-    Quit        Ended       {}
+    Quit        nil       {}
 }
-
-Ended
-{
-
-}
-
 
 %%

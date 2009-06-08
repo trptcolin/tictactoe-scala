@@ -39,6 +39,10 @@ trait Board{
     return Board.winSets.exists(winSet => winSet.forall(positions(_) == mark))
   }
 
+  def over(): Boolean = {
+    return full() || won()
+  }
+
   def positions: List[String]
 
   def move(mark: String, position: Int): Board

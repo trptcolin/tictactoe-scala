@@ -32,6 +32,7 @@ class BoardSpec extends Spec with ShouldMatchers {
       val board = new TestBoard(positions)
 
       board should be('full)
+      board should be('over)
     }
 
     it("should recognize generic win"){
@@ -42,7 +43,8 @@ class BoardSpec extends Spec with ShouldMatchers {
 
       val board = new TestBoard(positions)
 
-      board.won should be(true)
+      board should be('won)
+      board should be('over)
     }
 
     it("should recognize 1st horizontal win"){

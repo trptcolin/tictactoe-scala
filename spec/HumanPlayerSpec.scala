@@ -4,9 +4,9 @@ import org.scalatest.Spec
 
 class HumanPlayerSpec extends Spec with ShouldMatchers {
 
-  describe("HumanPlayer") {
+  describe("HumanConsolePlayer") {
     it("should make a move") {
-      val player = new HumanPlayer("X")
+      val player = new HumanConsolePlayer("X")
 
       val realIn = Console.in
       val realOut = Console.out
@@ -23,7 +23,7 @@ class HumanPlayerSpec extends Spec with ShouldMatchers {
     }
     
     it("should handle bad input") {
-      val player = new HumanPlayer("X")
+      val player = new HumanConsolePlayer("X")
 
       val realIn = Console.in
       val realOut = Console.out
@@ -43,7 +43,7 @@ class HumanPlayerSpec extends Spec with ShouldMatchers {
     }
     
     it("should handle integers outside the required range") {
-      val player = new HumanPlayer("X")
+      val player = new HumanConsolePlayer("X")
 
       val realIn = Console.in
       val realOut = Console.out

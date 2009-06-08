@@ -1,51 +1,49 @@
-class Game(startingBoard: Board, players: Array[Player], display: Display){
-
-  // TODO: eliminate board state on this game.
-  var board = startingBoard
-
+abstract class Game(startingBoard: Board, players: Array[Player]){
   val fsm = new GameContext(this)
-
-  // TODO: test me
-  def start(): Board ={
-    fsm.enterStartState()
-    fsm.GameTypeChosen("")
-    return board
+  
+  // TODO: try to eliminate modification of board state
+  var board = startingBoard
+  def clearBoard(): Unit = {
+    board = new BoardImpl()
   }
 
-  // TODO: test me
+
+  def refreshBoardState(board: Board): Unit
+  def decidePlayAgain(): Unit
+  def decideGameType(): Unit
+  
+  def start(): Unit ={
+    fsm.enterStartState()
+  }
+
   def playerMove(playerIndex: Int, square: Int) = {
     board = board.move(players(playerIndex).playerMark, square)
   }
 
-  // TODO: test me
-  def getNextMove(playerIndex: Int, board: Board): Int = {
-    if(over(board)) {
+  def getNextMove(playerIndex: Int, board: Board): Unit = {
+    if(board.over()) {
       fsm.GameOver()
-      return -1
     }
     else {
       val pickedPosition = players(playerIndex).move(board)
-      fsm.PickSquare(board, pickedPosition)
-      return pickedPosition
+      pickIfValidMove(board, pickedPosition)
     }
   }
 
-  // TODO: test me
-  def over(board: Board): Boolean ={
-    return (board.full || board.won)
+  def pickIfValidMove(board: Board, square: Int): Unit = {
+    if(isValidMove(board, square))
+      fsm.PickSquare(board, square)
   }
 
-  // TODO: test me
-  def over(): Boolean = {
-    over(board)
-  }
-
-  // TODO: test me
   def isValidMove(board: Board, square: Int): Boolean ={
-    return board.positions(square) == null
+    return board.openPositions.exists(_ == square)
   }
 
   def refreshBoardState(): Unit = {
-    display.refreshBoardState(board)
+    refreshBoardState(board)
   }
+
+
 }
+
+  

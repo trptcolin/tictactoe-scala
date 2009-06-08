@@ -92,11 +92,25 @@ private class GameFSM_Default(name: String, id: Int) extends GameState(name, id)
 
 private class GameFSM_Starting(name: String, id: Int) extends GameFSM_Default(name, id) {
 
+    override def Entry (context: GameContext): Unit = {
+        val ctxt = context.getOwner()
+
+        ctxt.decideGameType()
+    }
+
     override def GameTypeChosen(context: GameContext, gameType: String): Unit = {
+        val ctxt: Game = context.getOwner()
+
 
         context.getState().Exit(context)
-        context.setState(GameFSM.Player1)
-        context.getState().Entry(context)
+        context.clearState()
+        try {
+            ctxt.clearBoard()
+        }
+        finally {
+            context.setState(GameFSM.Player1)
+            context.getState().Entry(context)
+        }
     }
 }
 
@@ -119,32 +133,16 @@ private class GameFSM_Player1(name: String, id: Int) extends GameFSM_Default(nam
     override def PickSquare(context: GameContext, board: Board, square: Int): Unit = {
         val ctxt: Game = context.getOwner()
 
-        if (ctxt.isValidMove(board, square) == true) {
 
-            context.getState().Exit(context)
-            context.clearState()
-            try {
-                ctxt.playerMove(0, square)
-            }
-            finally {
-                context.setState(GameFSM.Player2)
-                context.getState().Entry(context)
-            }
+        context.getState().Exit(context)
+        context.clearState()
+        try {
+            ctxt.playerMove(0, square)
         }
-        else if (ctxt.over()) {
-
-            context.getState().Exit(context)
-            // No actions.
-            context.setState(GameFSM.Ending)
+        finally {
+            context.setState(GameFSM.Player2)
             context.getState().Entry(context)
         }
-        else {
-
-            context.getState().Exit(context)
-            context.setState(GameFSM.Player1)
-            context.getState().Entry(context)
-        }
-
     }
 }
 
@@ -167,36 +165,26 @@ private class GameFSM_Player2(name: String, id: Int) extends GameFSM_Default(nam
     override def PickSquare(context: GameContext, board: Board, square: Int): Unit = {
         val ctxt: Game = context.getOwner()
 
-        if (ctxt.isValidMove(board, square)) {
 
-            context.getState().Exit(context)
-            context.clearState()
-            try {
-                ctxt.playerMove(1, square)
-            }
-            finally {
-                context.setState(GameFSM.Player1)
-                context.getState().Entry(context)
-            }
+        context.getState().Exit(context)
+        context.clearState()
+        try {
+            ctxt.playerMove(1, square)
         }
-        else if (ctxt.over()) {
-
-            context.getState().Exit(context)
-            // No actions.
-            context.setState(GameFSM.Ending)
+        finally {
+            context.setState(GameFSM.Player1)
             context.getState().Entry(context)
         }
-        else {
-
-            context.getState().Exit(context)
-            context.setState(GameFSM.Player2)
-            context.getState().Entry(context)
-        }
-
     }
 }
 
 private class GameFSM_Ending(name: String, id: Int) extends GameFSM_Default(name, id) {
+
+    override def Entry (context: GameContext): Unit = {
+        val ctxt = context.getOwner()
+
+        ctxt.decidePlayAgain()
+    }
 
     override def PlayAgain(context: GameContext): Unit = {
 
@@ -207,13 +195,7 @@ private class GameFSM_Ending(name: String, id: Int) extends GameFSM_Default(name
 
     override def Quit(context: GameContext): Unit = {
 
-        context.getState().Exit(context)
-        context.setState(GameFSM.Ended)
-        context.getState().Entry(context)
     }
-}
-
-private class GameFSM_Ended(name: String, id: Int) extends GameFSM_Default(name, id) {
 }
 
 private object GameFSM {
@@ -221,7 +203,6 @@ private object GameFSM {
     val Player1 = new GameFSM_Player1("GameFSM.Player1", 1)
     val Player2 = new GameFSM_Player2("GameFSM.Player2", 2)
     val Ending = new GameFSM_Ending("GameFSM.Ending", 3)
-    val Ended = new GameFSM_Ended("GameFSM.Ended", 4)
     val Default = new GameFSM_Default("GameFSM.Default", -1)
 }
 

@@ -46,11 +46,7 @@ class ComputerPlayer(val playerMark: String) extends Player {
           val possibleScores = possibleResultBoards.map{
             scoreForDepth(_, otherMark, depth + 1)
           }
-          val bestScoreForOpponent = possibleScores.reduceLeft{
-            (a, b) =>
-                    if (a < b) b
-                    else a
-          }
+          val bestScoreForOpponent = possibleScores.reduceLeft{ _ max _ }
 
           return -bestScoreForOpponent
         }
@@ -69,10 +65,9 @@ class ComputerPlayer(val playerMark: String) extends Player {
   }
 
   private def printMoveDecisions(mark: String, board: Board, bestMove: Int) ={
-    println("scores for player " + mark + ": " + board.openPositions.map(
-      (pos: Int) =>
-              scoreFor(board.move(mark, pos)))
-      )
+    println("scores for player " + mark + ": " + board.openPositions.map {
+      (pos: Int) => scoreFor(board.move(mark, pos)) 
+    })
 
     println("best move: " + bestMove)
   }

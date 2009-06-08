@@ -1,17 +1,21 @@
-class ConsoleDisplay extends Display {
-  // TODO: test me
+class ConsoleGame(startingBoard: Board, players: Array[Player]) extends Game(startingBoard, players) {
   def refreshBoardState(board: Board): Unit = {
-    Console.println(ConsoleDisplay.stringify(board))
+    Console.println(ConsoleGame.stringify(board))
   }
-  // TODO: test me
-  def refreshBoardState(board: Board, str: String): Unit = {
-    Console.println(str)
-    refreshBoardState(board)
+
+  // TODO: test this
+  def decidePlayAgain: Unit = {
+
+  }
+
+  // TODO: test this
+  def decideGameType: Unit = {
+
   }
 }
 
-object ConsoleDisplay {
-  
+object ConsoleGame {
+
   def stringify(board: Board): String = {
     def stringForPosition(position: Int): String = {
       val mark = board.positions(position)

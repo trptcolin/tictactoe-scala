@@ -3,8 +3,7 @@ object ConsoleTicTacToe{
     val board = new BoardImpl()
     val player1 = new ComputerPlayer("X")
     val player2 = new ComputerPlayer("O")
-    val display = new ConsoleDisplay()
 
-    new Game(board, Array(player1, player2), display).start
+    new ConsoleGame(board, Array(player1, player2)).start
   }
 }

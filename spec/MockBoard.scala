@@ -2,6 +2,7 @@ class MockBoard(val positions: List[String], var timesMoved: Int) extends Board 
   var fullStub = false
   var wonStub = false
   var moveCount = 0
+  var overStub = false
 
   def this(timesMoved: Int) = {
     this(List[String] (null,null,null,
@@ -26,12 +27,20 @@ class MockBoard(val positions: List[String], var timesMoved: Int) extends Board 
     return fullStub || super.full()
   }
 
+  override def over: Boolean = {
+    return overStub || super.over()
+  }
+
   def setWon(isWon: Boolean) = {
     wonStub = isWon
   }
 
   def setFull(isFull: Boolean) = {
     fullStub = isFull
+  }
+
+  def setOver(isOver: Boolean) = {
+    overStub = isOver
   }
 
   def move (mark: String, position: Int): Board = {
