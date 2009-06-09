@@ -16,9 +16,9 @@ class GameContext(owner: Game) extends statemap.FSMContext[GameState] {
         _transition = ""
     }
 
-    def GameTypeChosen(gameType: String): Unit = {
+    def GameTypeChosen(): Unit = {
         _transition = "GameTypeChosen"
-        getState().GameTypeChosen(this, gameType)
+        getState().GameTypeChosen(this)
         _transition = ""
     }
 
@@ -31,12 +31,6 @@ class GameContext(owner: Game) extends statemap.FSMContext[GameState] {
     def PlayAgain(): Unit = {
         _transition = "PlayAgain"
         getState().PlayAgain(this)
-        _transition = ""
-    }
-
-    def Quit(): Unit = {
-        _transition = "Quit"
-        getState().Quit(this)
         _transition = ""
     }
 
@@ -63,7 +57,7 @@ class GameState(name: String, id: Int) {
         Default(context)
     }
 
-    def GameTypeChosen(context: GameContext, gameType: String): Unit = {
+    def GameTypeChosen(context: GameContext): Unit = {
         Default(context)
     }
 
@@ -72,10 +66,6 @@ class GameState(name: String, id: Int) {
     }
 
     def PlayAgain(context: GameContext): Unit = {
-        Default(context)
-    }
-
-    def Quit(context: GameContext): Unit = {
         Default(context)
     }
 
@@ -98,7 +88,7 @@ private class GameFSM_Starting(name: String, id: Int) extends GameFSM_Default(na
         ctxt.decideGameType()
     }
 
-    override def GameTypeChosen(context: GameContext, gameType: String): Unit = {
+    override def GameTypeChosen(context: GameContext): Unit = {
         val ctxt: Game = context.getOwner()
 
 
@@ -191,10 +181,6 @@ private class GameFSM_Ending(name: String, id: Int) extends GameFSM_Default(name
         context.getState().Exit(context)
         context.setState(GameFSM.Starting)
         context.getState().Entry(context)
-    }
-
-    override def Quit(context: GameContext): Unit = {
-
     }
 }
 

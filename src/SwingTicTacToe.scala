@@ -6,9 +6,7 @@ object SwingTicTacToe extends SimpleGUIApplication {
   def top = new MainFrame {
     val board = new BoardImpl()
     val player1 = new ComputerPlayer("X")
-
-    // TODO: create mechanism to allow this player to move
-    val player2 = new HumanPlayer("O")
+    val player2 = new ComputerPlayer("O")
 
     title = "Tic-Tac-Toe"
     preferredSize = (500, 500)

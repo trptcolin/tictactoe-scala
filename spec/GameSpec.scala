@@ -2,33 +2,11 @@ import java.io.ByteArrayOutputStream
 import org.scalatest.matchers.ShouldMatchers
 import org.scalatest.Spec
 
-class MockGameContext(owner: Game) extends GameContext(owner) {
-  var pickSquareCalled = false
-  var gameOverCalled = false
-  
-  override def PickSquare(board: Board, square: Int) = {
-    pickSquareCalled = true
-  }
-
-  override def GameOver() = {
-    gameOverCalled = true
-  }
-}
-
 class TestGame(board: Board, players: Array[Player]) extends Game(board, players) {
-  var decideGameTypeCalled = false
-
   override val fsm = new MockGameContext(this)
-
   def refreshBoardState(board: Board) ={}
-
-  def decidePlayAgain: Unit ={
-  }
-
-  def decideGameType: Unit ={
-    decideGameTypeCalled = true
-  }
-
+  def decidePlayAgain: Unit ={}
+  def decideGameType: Unit ={}
 }
 
 class GameSpec extends Spec with ShouldMatchers {
@@ -65,7 +43,6 @@ class GameSpec extends Spec with ShouldMatchers {
       game.start
 
       game.fsm.getState() should equal(GameFSM.Starting)
-      game.decideGameTypeCalled should equal(true)
     }
 
     it("should make move on behalf of player"){

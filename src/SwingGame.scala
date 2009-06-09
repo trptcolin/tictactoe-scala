@@ -37,16 +37,24 @@ class SwingGame(startingBoard: Board, players: Array[Player], frame: Frame) exte
 
       contents += new FlowPanel(FlowPanel.Alignment.Center) {
         contents += new Button("Computer (X) vs. Computer (O)") {
-          reactions += { case ButtonClicked(b) => fsm.GameTypeChosen("ComputerVComputer") }
+          reactions += {
+            case ButtonClicked(b) => setGameType(new ComputerPlayer("X"), new ComputerPlayer("O"))
+          }
         }
         contents += new Button("Human (X) vs. Computer (O)") {
-          reactions += { case ButtonClicked(b) => fsm.GameTypeChosen("HumanVComputer") }
+          reactions += {
+            case ButtonClicked(b) => setGameType(new HumanPlayer("X"), new ComputerPlayer("O"))
+          }
         }
         contents += new Button("Computer (X) vs. Human (O)") {
-          reactions += { case ButtonClicked(b) => fsm.GameTypeChosen("ComputerVHuman") }
+          reactions += {
+            case ButtonClicked(b) => setGameType(new ComputerPlayer("X"), new HumanPlayer("O"))
+          }
         }
         contents += new Button("Human (X) vs. Human (O)") {
-          reactions += { case ButtonClicked(b) => fsm.GameTypeChosen("HumanVHuman") }
+          reactions += {
+            case ButtonClicked(b) => setGameType(new HumanPlayer("X"), new HumanPlayer("O"))
+          }
         }
       }
     }
@@ -56,7 +64,7 @@ class SwingGame(startingBoard: Board, players: Array[Player], frame: Frame) exte
     frame.contents = boardStructure(board)
   }
 
-  // TODO: test
+  // TODO: test me
   def boardStructure(board: Board) = {
     new GridPanel(3, 3) {
       for (i <- 0 to 8){
@@ -64,6 +72,7 @@ class SwingGame(startingBoard: Board, players: Array[Player], frame: Frame) exte
           border = BorderFactory.createLineBorder(Color.black, 1)
           font = new Font("SansSerif", Font.PLAIN, 100)
 
+          if(board.positions(i) == null && !board.over)
           reactions += {
             case MousePressed(source, point, modifiers, clicks, triggersPopup) =>
               fsm.PickSquare(board, i)

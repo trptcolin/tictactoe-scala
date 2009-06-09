@@ -18,7 +18,8 @@ class ComputerPlayer(val playerMark: String) extends Player {
               else
                 a)
 
-    return bestPositionWithScore(0)
+    val bestPosition = bestPositionWithScore(0)
+    return bestPosition
   }
 
   private def scoreFor(board: Board): Int ={

@@ -5,45 +5,33 @@
 %%
 
 Starting
-Entry { decideGameType(); }
+    Entry   { decideGameType(); }
 {
-    GameTypeChosen(gameType: String)    Player1 { clearBoard(); }
+    GameTypeChosen                              Player1     { clearBoard(); }
 }
+
 
 Player1
-Entry {
-    // test me
-    refreshBoardState();
-    getNextMove(0, ctxt.board);
-}
+    Entry   { refreshBoardState(); getNextMove(0, ctxt.board); }
 {   
-    PickSquare(board: Board, square: Int)
-            Player2 {
-                // test me
-                playerMove(0, square);
-            }
+    PickSquare(board: Board, square: Int)       Player2     { playerMove(0, square); }
 
-    GameOver     Ending {}
+    GameOver                                    Ending      {}
 }
+
 
 Player2
-Entry {
-    // test me
-    refreshBoardState();
-    getNextMove(1, ctxt.board);
-}
+    Entry   { refreshBoardState(); getNextMove(1, ctxt.board); }
 {
-    // test me
-    PickSquare(board: Board, square: Int)   Player1     { playerMove(1, square); }
-
-    GameOver     Ending {}
+    PickSquare(board: Board, square: Int)       Player1     { playerMove(1, square); }
+    
+    GameOver                                    Ending      {}
 }
 
 Ending
-Entry { decidePlayAgain(); }
+    Entry   { decidePlayAgain(); }
 {
-    PlayAgain   Starting    {}
-    Quit        nil       {}
+    PlayAgain                                   Starting    {}
 }
 
 %%
