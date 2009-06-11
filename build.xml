@@ -1,0 +1,82 @@
+<project name="TicTacToe" basedir="." default="test">
+    
+    <property name="lib.dir" value="lib" />
+    <property name="test.dir" value="spec" />
+    <property name="src.dir" value="src" />
+    <property name="build.dir" value="out" />
+
+    <property name="scala-compiler.jar"
+              value="${lib.dir}/scala-compiler.jar"   />
+    <property name="scala-library.jar"
+              value="${lib.dir}/scala-library.jar" />
+    <property name="scala-swing.jar"
+              value="${lib.dir}/scala-swing.jar" />
+    <property name="statemap.jar"
+              value="${lib.dir}/statemap.jar" />
+    <property name="scalatest.jar"
+              value="${lib.dir}/scalatest-0.9.5.jar" />
+    <property name="jemmy.jar"
+              value="${lib.dir}/jemmy.jar" />
+    <property name="junit.jar"
+              value="${lib.dir}/junit-4.5.jar" />
+
+    <target name="clean">
+        <delete dir="${build.dir}"></delete>
+    </target>
+
+
+    <path id="build.classpath">
+        <pathelement location="${scala-library.jar}" />
+        <pathelement location="${scala-swing.jar}" />
+        <pathelement location="${statemap.jar}" />
+        <pathelement location="${build.dir}" />
+    </path>
+
+    <path id="test.classpath">
+        <pathelement location="${statemap.jar}" />
+        <pathelement location="${scalatest.jar}" />
+        <pathelement location="${jemmy.jar}" />
+        <pathelement location="${scala-library.jar}" />
+        <pathelement location="${scala-swing.jar}" />
+        <pathelement location="${build.dir}" />
+    </path>
+
+    
+    <target name="init">
+        <taskdef resource="scala/tools/ant/antlib.xml">
+            <classpath>
+                <pathelement location="${scala-compiler.jar}" />
+                <pathelement location="${scala-library.jar}" />
+            </classpath>
+        </taskdef>
+        <taskdef name="scalatest" classname="org.scalatest.tools.ScalaTestTask">
+            <classpath refid="test.classpath" /> 
+        </taskdef>
+    </target>
+
+    
+    <target name="build.compile" depends="init">
+        <mkdir dir="${build.dir}" />
+        <scalac srcdir="${src.dir}" destdir="${build.dir}">
+            <classpath refid="build.classpath" />
+            <include name="**/*.scala" />
+        </scalac>
+    </target>
+
+
+    
+    <target name="test.compile">
+        <mkdir dir="${build.dir}" />
+        <scalac srcdir="${test.dir}" destdir="${build.dir}">
+            <classpath refid="test.classpath" />
+            <include name="**/*.scala" />
+        </scalac>
+    </target>
+
+    <target name="test" depends="clean, init, build.compile, test.compile">
+        <scalatest runpath="${build.dir}">
+            <reporter type="stdout" />
+        </scalatest>
+    </target>
+
+</project>

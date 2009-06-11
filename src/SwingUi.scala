@@ -23,6 +23,8 @@ object SwingUi {
     )
 
   def addButtonStyles(btn: Component): Unit = {
+    btn.xLayoutAlignment = 0.5
+
     btn.opaque = true
     btn.border = buttonBorder
     btn.background = turquoise
@@ -31,6 +33,20 @@ object SwingUi {
 
     btn.reactions += buttonReactions
     btn.listenTo(btn.Mouse.clicks, btn.Mouse.moves)
+  }
+
+  def addSquareStyles(square: Component, teamColor: Color, squareIndex: Int): Unit = {
+    square.opaque = true
+
+    val borderWidth = 3
+    val borderBottom = if ((squareIndex / 3) == 2) 0 else borderWidth
+    val borderRight = if ((squareIndex % 3) == 2) 0 else borderWidth
+    square.border = BorderFactory.createMatteBorder(0, 0, borderBottom, borderRight, SwingUi.lime)
+
+    square.font = new Font("SansSerif", Font.PLAIN, 100)
+    square.foreground = teamColor
+
+    square.listenTo(square.Mouse.clicks, square.Mouse.moves)
   }
 
   val buttonReactions: PartialFunction[Event, Unit] = {
@@ -46,6 +62,22 @@ object SwingUi {
       source.cursor = new Cursor(Cursor.DEFAULT_CURSOR)
   }
 
+
+
+  def setMainStyles(frame: Frame): Unit = {
+    frame.title = "Tic-Tac-Toe"
+    frame.preferredSize = (500, 500)
+    frame.background = blue
+    frame.foreground = lime
+  }
+
+  def addPlayAgainAction(square: Component, action: () => Unit): Unit = {
+    square.reactions += {
+      case MousePressed(source, point, modifiers, clicks, triggersPopup) =>
+        action()
+    }
+  }
+
   def squareReactions(color: Color): PartialFunction[Event, Unit] = {
     case MouseEntered(source, point, modifiers) =>
       source.background = turquoise
@@ -55,13 +87,6 @@ object SwingUi {
       source.background = blue
       source.foreground = color
       source.cursor = new Cursor(Cursor.DEFAULT_CURSOR)
-  }
-
-  def setMainStyles(frame: Frame): Unit = {
-    frame.title = "Tic-Tac-Toe"
-    frame.preferredSize = (500, 500)
-    frame.background = blue
-    frame.foreground = lime
   }
 
 }
