@@ -10,4 +10,13 @@ object Player {
     else
       "X"
   }
+
+  def generate(playerType: String, mark: String): Player = {
+    playerType match {
+      case "Computer" =>
+        new ComputerPlayer(mark)
+      case "Human" =>
+        new HumanPlayer(mark)
+    }
+  } 
 }

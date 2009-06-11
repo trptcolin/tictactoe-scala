@@ -1,85 +1,104 @@
 import java.awt.{Color, Font}
+import javax.swing.BorderFactory
 import swing._
 import swing.event._
-import javax.swing.BorderFactory
 
 class SwingGame(startingBoard: Board, players: Array[Player], frame: Frame) extends Game(startingBoard, players) {
- 
-  frame.contents = boardStructure(board)
-
-  // TODO: test me
-  def decidePlayAgain: Unit = {
-    val newContents = new BoxPanel(Orientation.Vertical) {
-     
-      contents += boardStructure(board)
-
-      contents += new FlowPanel(FlowPanel.Alignment.Center) {
-        contents += new Button("Play Again") {
-          xLayoutAlignment = 0.5
-          reactions += {
-            case ButtonClicked(b) =>
-              fsm.PlayAgain()
-          }
-        }
+  private def generatePlayersButton(player1Type: String, player2Type: String): Component = {
+    new Label (player1Type + " (X) vs. " + player2Type + " (O)") {
+      SwingUi.addButtonStyles (this)
+      reactions += {
+        case MousePressed (source, point, modifiers, clicks, triggersPopup) =>
+          setGameType (
+            Player.generate(player1Type, "X"), Player.generate(player2Type, "O"))
       }
     }
-
-    frame.contents = newContents
   }
 
   // TODO: test me
   def decideGameType: Unit = {
     frame.contents = new BoxPanel(Orientation.Vertical) {
-      contents += new FlowPanel(FlowPanel.Alignment.Center) {
-        yLayoutAlignment = 0.5
-        contents += new Label("What type of game would you like to play?")
+      contents += new BoxPanel(Orientation.Vertical) {
+        xLayoutAlignment = 0.5
+
+        border = BorderFactory.createMatteBorder(0, 0, 10, 0, new Color(0, 0, 0, 0))
+
+        contents += new Label("Choose your Players:") {
+          preferredSize = (frame.preferredSize.width, frame.preferredSize.height / 3)
+          font = new Font("SansSerif", Font.BOLD, 28)
+          foreground = SwingUi.lime
+          verticalAlignment = Alignment.Bottom
+        }
       }
 
       contents += new FlowPanel(FlowPanel.Alignment.Center) {
-        contents += new Button("Computer (X) vs. Computer (O)") {
+        contents += generatePlayersButton("Computer", "Computer")
+        contents += generatePlayersButton("Human", "Computer")
+        contents += generatePlayersButton("Computer", "Human")
+        contents += generatePlayersButton("Human", "Human")
+      }
+    }
+  }
+
+  def refreshBoardState(board: Board) = {
+    frame.contents = boardStructure(board)
+  }
+
+  // TODO: test me
+  def decidePlayAgain: Unit = {
+    frame.contents = new BoxPanel(Orientation.Vertical) {
+      contents += boardStructure(board)
+      contents += new FlowPanel(FlowPanel.Alignment.Center) {
+        border = BorderFactory.createLineBorder(SwingUi.transparent, 15)
+
+        contents += new Label("Play Again") {
+          xLayoutAlignment = 0.5
+
+          SwingUi.addButtonStyles(this)
           reactions += {
-            case ButtonClicked(b) => setGameType(new ComputerPlayer("X"), new ComputerPlayer("O"))
-          }
-        }
-        contents += new Button("Human (X) vs. Computer (O)") {
-          reactions += {
-            case ButtonClicked(b) => setGameType(new HumanPlayer("X"), new ComputerPlayer("O"))
-          }
-        }
-        contents += new Button("Computer (X) vs. Human (O)") {
-          reactions += {
-            case ButtonClicked(b) => setGameType(new ComputerPlayer("X"), new HumanPlayer("O"))
-          }
-        }
-        contents += new Button("Human (X) vs. Human (O)") {
-          reactions += {
-            case ButtonClicked(b) => setGameType(new HumanPlayer("X"), new HumanPlayer("O"))
+            case MousePressed(source, point, modifiers, clicks, triggersPopup) =>
+              fsm.PlayAgain()
           }
         }
       }
     }
   }
 
-  def refreshBoardState(board: Board) ={
-    frame.contents = boardStructure(board)
-  }
-
   // TODO: test me
   def boardStructure(board: Board) = {
     new GridPanel(3, 3) {
-      for (i <- 0 to 8){
-        contents += new Label(board.positions(i)) {
-          border = BorderFactory.createLineBorder(Color.black, 1)
-          font = new Font("SansSerif", Font.PLAIN, 100)
+      border = BorderFactory.createLineBorder(SwingUi.transparent, 10)
 
-          if(board.positions(i) == null && !board.over)
-          reactions += {
-            case MousePressed(source, point, modifiers, clicks, triggersPopup) =>
-              fsm.PickSquare(board, i)
-          }
+      (0 to 8).foreach {
+        i =>
+                contents += new Label(board.positions(i)) {
+                  opaque = true
 
-          listenTo(Mouse.clicks)
-        }
+                  val borderWidth = 3
+                  val borderBottom = if ((i / 3) == 2) 0
+                  else borderWidth
+                  val borderRight = if ((i % 3) == 2) 0
+                  else borderWidth
+                  border = BorderFactory.createMatteBorder(0, 0, borderBottom, borderRight, SwingUi.lime)
+
+                  font = new Font("SansSerif", Font.PLAIN, 100)
+                  val teamColor =
+                  if (board.positions(i) == "X")
+                    SwingUi.turquoise
+                  else
+                    SwingUi.orange
+
+                  foreground = teamColor
+
+                  if (!board.over && isValidMove(board, i))
+                    reactions += SwingUi.squareReactions(teamColor)
+                  reactions += {
+                    case MousePressed(source, point, modifiers, clicks, triggersPopup) =>
+                      pickIfValidMove(board, i)
+                  }
+
+                  listenTo(Mouse.clicks, Mouse.moves)
+                }
       }
     }
   }

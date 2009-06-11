@@ -50,8 +50,6 @@ abstract class Game(startingBoard: Board, players: Array[Player]){
   def refreshBoardState(): Unit = {
     refreshBoardState(board)
   }
-
-
 }
 
   

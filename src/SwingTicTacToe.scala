@@ -1,5 +1,4 @@
 import scala.swing._
-import event._
 
 object SwingTicTacToe extends SimpleGUIApplication {
 
@@ -8,13 +7,11 @@ object SwingTicTacToe extends SimpleGUIApplication {
     val player1 = new ComputerPlayer("X")
     val player2 = new ComputerPlayer("O")
 
-    title = "Tic-Tac-Toe"
-    preferredSize = (500, 500)
-
+    SwingUi.setMainStyles(this)
     val game = new SwingGame(board, Array(player1, player2), this)
 
     new Thread {
-      override def run() ={
+      override def run() = {
         game.start
       }
     }.start
