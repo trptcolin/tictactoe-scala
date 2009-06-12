@@ -1,7 +1,8 @@
-<project name="TicTacToe" basedir="." default="test">
+<project name="TicTacToe-scala" basedir="." default="test">
     
     <property name="lib.dir" value="lib" />
-    <property name="test.dir" value="spec" />
+    <property name="test.dir" value="test/unit" />
+    <property name="test-integration.dir" value="test/integration" />
     <property name="src.dir" value="src" />
     <property name="build.dir" value="out" />
 
@@ -73,10 +74,26 @@
         </scalac>
     </target>
 
+    <target name="test-integration.compile" depends="test.compile">
+        <mkdir dir="${build.dir}" />
+        <scalac srcdir="${test-integration.dir}" destdir="${build.dir}">
+            <classpath refid="test.classpath" />
+            <include name="**/*.scala" />
+        </scalac>
+
+    </target>
+
     <target name="test" depends="clean, init, build.compile, test.compile">
         <scalatest runpath="${build.dir}">
             <reporter type="stdout" />
         </scalatest>
     </target>
 
+    <target name="test-integration" depends="clean, init, build.compile, test-integration.compile">
+        <exec executable="scala">
+            <arg line="-cp ${statemap.jar}:${scalatest.jar}:${jemmy.jar}:${build.dir}" />
+            <arg line="org.scalatest.tools.Runner" />
+            <arg line="-p ${build.dir}" />
+        </exec>
+    </target>
 </project>

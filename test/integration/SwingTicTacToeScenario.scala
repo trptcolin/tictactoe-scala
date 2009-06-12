@@ -21,7 +21,7 @@ class SwingTicTacToeScenario extends Spec with ShouldMatchers with BeforeAndAfte
   describe("SwingTicTacToe") {
     it("should play a game: computer vs. computer") {
       val computerComputerButton = new JLabelOperator(mainWindow, "Computer (X) vs. Computer (O)")
-      computerComputerButton should be(null)
+      computerComputerButton should not be(null)
 
       computerComputerButton.clickMouse()
 

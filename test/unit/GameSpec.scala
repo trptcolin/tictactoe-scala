@@ -10,7 +10,7 @@ class TestGame(board: Board, players: Array[Player]) extends Game(board, players
 }
 
 class GameSpec extends Spec with ShouldMatchers {
-  describe("GameSpec"){
+  describe("unit.GameSpec"){
 
     it("should recognize a valid move"){
       val board = new MockBoard()
