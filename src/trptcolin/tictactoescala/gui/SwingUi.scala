@@ -1,3 +1,5 @@
+package trptcolin.tictactoescala.gui
+
 import java.awt.{Color, Font, Cursor}
 import javax.swing.BorderFactory
 import swing._

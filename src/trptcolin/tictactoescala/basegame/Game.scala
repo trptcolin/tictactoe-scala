@@ -1,3 +1,5 @@
+package trptcolin.tictactoescala.basegame
+
 abstract class Game(startingBoard: Board, players: Array[Player]){
   val fsm = new GameContext(this)
 

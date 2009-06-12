@@ -1,3 +1,7 @@
+package trptcolin.tictactoescala.console
+
+
+import basegame.{MockPlayer, MockBoard}
 import java.io.ByteArrayOutputStream
 import org.scalatest.matchers.ShouldMatchers
 import org.scalatest.Spec

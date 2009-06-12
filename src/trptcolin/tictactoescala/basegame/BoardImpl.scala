@@ -1,3 +1,5 @@
+package trptcolin.tictactoescala.basegame
+
 class BoardImpl(val positions: List[String]) extends Board {
   def this() ={
     this (List[String](

@@ -1,3 +1,6 @@
+package trptcolin.tictactoescala.players
+
+import basegame.MockBoard
 import org.scalatest.matchers.ShouldMatchers
 import org.scalatest.Spec
 

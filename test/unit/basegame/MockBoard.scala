@@ -1,3 +1,5 @@
+package trptcolin.tictactoescala.basegame
+
 class MockBoard(val positions: List[String], var timesMoved: Int) extends Board {
   var fullStub = false
   var wonStub = false

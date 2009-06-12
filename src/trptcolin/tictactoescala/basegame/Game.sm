@@ -1,3 +1,4 @@
+%package trptcolin.tictactoescala.basegame
 %class Game
 
 %start GameFSM::Starting

@@ -1,3 +1,5 @@
+package trptcolin.tictactoescala.basegame
+
 class MockGame(board: Board, players: Array[Player]) extends Game(board, players) {
   override val fsm = new GameContext(this)
 

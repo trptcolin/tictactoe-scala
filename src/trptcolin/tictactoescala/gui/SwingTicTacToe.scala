@@ -1,3 +1,7 @@
+package trptcolin.tictactoescala.gui
+import basegame.BoardImpl
+import players._
+
 import scala.swing._
 
 object SwingTicTacToe extends SimpleGUIApplication {

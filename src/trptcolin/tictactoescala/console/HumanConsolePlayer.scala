@@ -1,5 +1,8 @@
-import java.io.EOFException
+package trptcolin.tictactoescala.console
+import basegame.{Player, Board}
 
+
+import java.io.EOFException
 class HumanConsolePlayer(val playerMark: String) extends Player {
   def move(board: Board): Int ={
     Console.println("Make your move (0-8): ")

@@ -1,8 +1,11 @@
+package trptcolin.tictactoescala.console
+
+import basegame.MockBoard
 import java.io.{OutputStream, ByteArrayOutputStream, CharArrayReader}
 import org.scalatest.matchers.ShouldMatchers
 import org.scalatest.Spec
 
-class HumanPlayerSpec extends Spec with ShouldMatchers {
+class HumanConsolePlayerSpec extends Spec with ShouldMatchers {
 
   describe("HumanConsolePlayer") {
     it("should make a move") {

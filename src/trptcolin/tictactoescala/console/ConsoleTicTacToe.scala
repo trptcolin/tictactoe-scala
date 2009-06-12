@@ -1,3 +1,7 @@
+package trptcolin.tictactoescala.console
+import basegame.BoardImpl
+import players._
+
 object ConsoleTicTacToe{
   def main(args: Array[String]){
     val board = new BoardImpl()

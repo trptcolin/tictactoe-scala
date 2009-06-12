@@ -1,3 +1,5 @@
+package trptcolin.tictactoescala.basegame
+
 class MockPlayer(val playerMark: String) extends Player {
   var moveCalled = false
 

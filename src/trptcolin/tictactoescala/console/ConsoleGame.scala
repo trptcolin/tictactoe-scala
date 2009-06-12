@@ -1,3 +1,7 @@
+package trptcolin.tictactoescala.console
+import basegame._
+import players._
+
 import java.io.EOFException
 
 class ConsoleGame(startingBoard: Board, players: Array[Player]) extends Game(startingBoard, players) {

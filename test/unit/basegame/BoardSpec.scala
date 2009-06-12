@@ -1,3 +1,5 @@
+package trptcolin.tictactoescala.basegame
+
 import org.scalatest.Spec
 import org.scalatest.matchers.ShouldMatchers
 

@@ -1,3 +1,5 @@
+package trptcolin.tictactoescala.basegame
+
 object Board{
   val winSets =
   List(

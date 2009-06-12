@@ -1,3 +1,5 @@
+package trptcolin.tictactoescala.basegame
+
 import java.io.ByteArrayOutputStream
 import org.scalatest.matchers.ShouldMatchers
 import org.scalatest.Spec
@@ -10,7 +12,7 @@ class TestGame(board: Board, players: Array[Player]) extends Game(board, players
 }
 
 class GameSpec extends Spec with ShouldMatchers {
-  describe("unit.GameSpec"){
+  describe("Game"){
 
     it("should recognize a valid move"){
       val board = new MockBoard()
@@ -42,6 +44,7 @@ class GameSpec extends Spec with ShouldMatchers {
 
       game.start
 
+      // TODO: find a way to compile this line
       game.fsm.getState() should equal(GameFSM.Starting)
     }
 

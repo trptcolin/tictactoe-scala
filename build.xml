@@ -94,6 +94,14 @@
             <arg line="-cp ${statemap.jar}:${scalatest.jar}:${jemmy.jar}:${build.dir}" />
             <arg line="org.scalatest.tools.Runner" />
             <arg line="-p ${build.dir}" />
+            <arg line="-o" />
+        </exec>
+    </target>
+
+    <target name="run" depends="clean, init, build.compile">
+        <exec executable="scala">
+            <arg line="-cp ${statemap.jar}:${build.dir}" />
+            <arg line="trptcolin.tictactoescala.gui.SwingTicTacToe" />
         </exec>
     </target>
 </project>

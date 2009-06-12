@@ -1,3 +1,6 @@
+package trptcolin.tictactoescala.players
+import basegame.{Board, Player}
+
 import collection.immutable.HashMap
 
 class ComputerPlayer(val playerMark: String) extends Player {

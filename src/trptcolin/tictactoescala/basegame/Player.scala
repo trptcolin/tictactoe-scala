@@ -1,3 +1,7 @@
+package trptcolin.tictactoescala.basegame
+
+import players._
+
 trait Player{
   val playerMark: String
   def move(board: Board): Int
