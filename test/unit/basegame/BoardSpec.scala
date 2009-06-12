@@ -11,6 +11,9 @@ class TestBoard(val positions: List[String]) extends Board {
       null, null, null))
   }
 
+  def clear(): Board = {
+    new TestBoard()
+  }
   def move(mark: String, position: Int): Board ={
     return new TestBoard(newPositions(mark, position))
   }

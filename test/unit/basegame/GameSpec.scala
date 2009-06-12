@@ -4,7 +4,7 @@ import java.io.ByteArrayOutputStream
 import org.scalatest.matchers.ShouldMatchers
 import org.scalatest.Spec
 
-class TestGame(board: Board, players: Array[Player]) extends Game(board, players) {
+class TestGame(board: Board, val players: Array[Player]) extends Game(board, players) {
   override val fsm = new MockGameContext(this)
   def refreshBoardState(board: Board) ={}
   def decidePlayAgain: Unit ={}
@@ -44,7 +44,6 @@ class GameSpec extends Spec with ShouldMatchers {
 
       game.start
 
-      // TODO: find a way to compile this line
       game.fsm.getState() should equal(GameFSM.Starting)
     }
 
@@ -109,6 +108,20 @@ class GameSpec extends Spec with ShouldMatchers {
       game.getNextMove(0, board)
 
       game.fsm.gameOverCalled should equal(true)
+    }
+
+    it("should set the game type") {
+      val board = new MockBoard()
+      val player1 = new MockPlayer("X")
+      val player2 = new MockPlayer("O")
+      val game = new TestGame(board, Array(player1, player2))
+
+      game.setGameType(player2, player1)
+
+      game.players(0) should equal(player2)
+      game.players(1) should equal(player1)
+      
+      game.fsm.gameTypeChosenCalled should be(true)
     }
   }
 }

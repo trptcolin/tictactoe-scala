@@ -46,6 +46,7 @@ trait Board{
   }
 
   def positions: List[String]
+  def clear(): Board
 
   def move(mark: String, position: Int): Board
 

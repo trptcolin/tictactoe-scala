@@ -11,4 +11,8 @@ class BoardImpl(val positions: List[String]) extends Board {
   def move(mark: String, position: Int): Board ={
     return new BoardImpl(newPositions(mark, position))
   }
+
+  def clear(): Board = {
+    new BoardImpl()
+  }
 }

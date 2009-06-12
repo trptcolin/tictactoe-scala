@@ -1,5 +1,6 @@
 package trptcolin.tictactoescala.gui
 import basegame._
+import players.PlayerFactory
 
 import java.awt.{Color, Font}
 import javax.swing.BorderFactory
@@ -13,7 +14,7 @@ class SwingGame(startingBoard: Board, players: Array[Player], frame: Frame) exte
       reactions += {
         case MousePressed(source, point, modifiers, clicks, triggersPopup) =>
           setGameType(
-            Player.generate(player1Type, "X"), Player.generate(player2Type, "O"))
+            PlayerFactory.generate(player1Type, "X"), PlayerFactory.generate(player2Type, "O"))
       }
     }
   }

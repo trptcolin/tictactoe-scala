@@ -3,10 +3,9 @@ package trptcolin.tictactoescala.basegame
 abstract class Game(startingBoard: Board, players: Array[Player]){
   val fsm = new GameContext(this)
 
-  // TODO: try to eliminate modification of board state
   var board = startingBoard
   def clearBoard(): Unit = {
-    board = new BoardImpl()
+    board = board.clear
   }
 
   def refreshBoardState(board: Board): Unit
@@ -16,8 +15,7 @@ abstract class Game(startingBoard: Board, players: Array[Player]){
   def start(): Unit ={
     fsm.enterStartState()
   }
-
-  // TODO: test me
+  
   def setGameType(player1: Player, player2: Player) {
     players(0) = player1
     players(1) = player2

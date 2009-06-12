@@ -1,4 +1,4 @@
-package trptcolin.tictactoescala.console
+package trptcolin.tictactoescala.players
 
 import basegame.MockBoard
 import java.io.{OutputStream, ByteArrayOutputStream, CharArrayReader}

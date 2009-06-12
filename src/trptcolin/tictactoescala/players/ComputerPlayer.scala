@@ -73,14 +73,4 @@ class ComputerPlayer(val playerMark: String) extends Player {
 
     scoreForDepth(board, playerMark, 0)
   }
-
-  // TODO: remove (debugging code)
-  //  private def printMoveDecisions(mark: String, board: Board, bestMove: Int) ={
-  //    println("scores for player " + mark + ": " + board.openPositions.map {
-  //      (pos: Int) => scoreFor(board.move(mark, pos))
-  //    })
-  //
-  //    println("best move: " + bestMove)
-  //  }
-
 }

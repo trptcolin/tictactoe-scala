@@ -21,6 +21,10 @@ class MockBoard(val positions: List[String], var timesMoved: Int) extends Board 
     this(0)
   }
 
+  def clear(): Board = {
+    new MockBoard()
+  }
+
   override def won: Boolean = {
     return wonStub || super.won()
   }
