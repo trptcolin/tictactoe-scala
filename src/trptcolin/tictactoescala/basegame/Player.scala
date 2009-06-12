@@ -1,12 +1,15 @@
 package trptcolin.tictactoescala.basegame
 
-trait Player{
+trait Player
+{
   val playerMark: String
   def move(board: Board): Int
 }
 
-object Player {
-  def otherMark(mark: String): String ={
+object Player
+{
+  def otherMark(mark: String): String =
+  {
     if (mark == "X")
       "O"
     else

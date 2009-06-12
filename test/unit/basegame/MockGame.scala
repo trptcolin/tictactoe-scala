@@ -1,6 +1,7 @@
 package trptcolin.tictactoescala.basegame
 
-class MockGame(board: Board, players: Array[Player]) extends Game(board, players) {
+class MockGame(board: Board, players: Array[Player]) extends Game(board, players)
+{
   override val fsm = new GameContext(this)
 
   var refreshBoardStateCalled = false
@@ -13,25 +14,30 @@ class MockGame(board: Board, players: Array[Player]) extends Game(board, players
   var playerMoveCalled = false
   var playerMoveCalledWith = (-1, -1)
 
-  def decideGameType(): Unit = {
+  def decideGameType(): Unit =
+  {
     decideGameTypeCalled = true
   }
 
-  def refreshBoardState(board: Board) ={
+  def refreshBoardState(board: Board) =
+  {
     refreshBoardStateCalled = true
   }
-  def decidePlayAgain: Unit ={}
+  def decidePlayAgain: Unit = {}
 
-  override def clearBoard(): Unit = {
+  override def clearBoard(): Unit =
+  {
     clearBoardCalled = true
   }
 
-  override def getNextMove(playerIndex: Int, board: Board) = {
+  override def getNextMove(playerIndex: Int, board: Board) =
+  {
     getNextMoveCalled = true
     getNextMoveCalledWith = (playerIndex, board)
   }
 
-  override def playerMove(playerIndex: Int, square: Int) = {
+  override def playerMove(playerIndex: Int, square: Int) =
+  {
     playerMoveCalled = true
     playerMoveCalledWith = (playerIndex, square)
   }

@@ -5,7 +5,8 @@ import javax.swing.BorderFactory
 import swing._
 import swing.event._
 
-object SwingUi {
+object SwingUi
+{
   val lime = new Color(190, 219, 57)
   val orange = new Color(253, 64, 0)
   val turquoise = new Color(31, 138, 112)
@@ -24,7 +25,8 @@ object SwingUi {
     BorderFactory.createLineBorder(lime, 10)
     )
 
-  def addButtonStyles(btn: Component): Unit = {
+  def addButtonStyles(btn: Component): Unit =
+  {
     btn.xLayoutAlignment = 0.5
 
     btn.opaque = true
@@ -37,7 +39,8 @@ object SwingUi {
     btn.listenTo(btn.Mouse.clicks, btn.Mouse.moves)
   }
 
-  def addSquareStyles(square: Component, teamColor: Color, squareIndex: Int): Unit = {
+  def addSquareStyles(square: Component, teamColor: Color, squareIndex: Int): Unit =
+  {
     square.opaque = true
 
     val borderWidth = 3
@@ -51,7 +54,8 @@ object SwingUi {
     square.listenTo(square.Mouse.clicks, square.Mouse.moves)
   }
 
-  val buttonReactions: PartialFunction[Event, Unit] = {
+  val buttonReactions: PartialFunction[Event, Unit] =
+  {
     case MouseEntered(source, point, modifiers) =>
       source.background = lime
       source.foreground = blue
@@ -66,21 +70,24 @@ object SwingUi {
 
 
 
-  def setMainStyles(frame: Frame): Unit = {
+  def setMainStyles(frame: Frame): Unit =
+  {
     frame.title = "Tic-Tac-Toe"
     frame.preferredSize = (500, 500)
     frame.background = blue
     frame.foreground = lime
   }
 
-  def addPlayAgainAction(square: Component, action: () => Unit): Unit = {
+  def addPlayAgainAction(square: Component, action: () => Unit): Unit =
+  {
     square.reactions += {
       case MousePressed(source, point, modifiers, clicks, triggersPopup) =>
         action()
     }
   }
 
-  def squareReactions(color: Color): PartialFunction[Event, Unit] = {
+  def squareReactions(color: Color): PartialFunction[Event, Unit] =
+  {
     case MouseEntered(source, point, modifiers) =>
       source.background = turquoise
       source.foreground = blue

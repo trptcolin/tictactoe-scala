@@ -3,13 +3,15 @@ import basegame.{Board, Player}
 
 import collection.immutable.HashMap
 
-class ComputerPlayer(val playerMark: String) extends Player {
+class ComputerPlayer(val playerMark: String) extends Player
+{
   val searchDepth = 9
   val highScore = 1000
 
   var scoringHash: Map[(String, String), Int] = new HashMap[(String, String), Int]()
 
-  def move(board: Board): Int = {
+  def move(board: Board): Int =
+  {
     val positionsWithScores = board.openPositions.map {
       pos =>
               List(pos, scoreFor(board.move(playerMark, pos)))
@@ -27,11 +29,12 @@ class ComputerPlayer(val playerMark: String) extends Player {
     return bestPosition
   }
 
-  private def scoreFor(board: Board): Int = {
-
-    def scoreForDepth(board: Board, mark: String, depth: Int): Int = {
-
-      def cachingValue(value: Int): Int = {
+  private def scoreFor(board: Board): Int =
+  {
+    def scoreForDepth(board: Board, mark: String, depth: Int): Int =
+    {
+      def cachingValue(value: Int): Int =
+      {
         if (!scoringHash.contains((board.positions.toString, mark)))
           scoringHash += ((board.positions.toString, mark) -> value)
 
@@ -47,7 +50,8 @@ class ComputerPlayer(val playerMark: String) extends Player {
           return -highScore + depth
         else if (board.full || depth > searchDepth)
           return 0 + depth
-        else {
+        else
+        {
           val possibleResultBoards = board.openPositions.map {
             board.move(otherMark, _)
           }
@@ -63,10 +67,12 @@ class ComputerPlayer(val playerMark: String) extends Player {
       }
 
 
-      if (scoringHash.contains((board.positions.toString, mark))) {
+      if (scoringHash.contains((board.positions.toString, mark)))
+      {
         return scoringHash((board.positions.toString, mark))
       }
-      else {
+      else
+      {
         return cachingValue(calculateScore())
       }
     }

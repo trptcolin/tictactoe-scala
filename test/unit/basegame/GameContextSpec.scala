@@ -1,46 +1,45 @@
 package trptcolin.tictactoescala.basegame
 
 import org.scalatest.matchers.ShouldMatchers
-import org.scalatest.Spec
+import org.scalatest.{BeforeAndAfter, Spec}
+class GameContextSpec extends Spec with ShouldMatchers with BeforeAndAfter
+{
+  var board: MockBoard = _
+  var player1: MockPlayer = _
+  var player2: MockPlayer = _
+  var game: MockGame = _
+  var fsm: GameContext = _
 
-class GameContextSpec extends Spec with ShouldMatchers {
-  describe("GameContext") {
-    it("should start by deciding on the game type") {
-      val board = new MockBoard()
-      val player1 = new MockPlayer("X")
-      val player2 = new MockPlayer("O")
-      val game = new MockGame(board, Array(player1, player2))
+  override def beforeEach(): Unit =
+  {
+    board = new MockBoard()
+    player1 = new MockPlayer("X")
+    player2 = new MockPlayer("O")
+    game = new MockGame(board, Array(player1, player2))
+    fsm = game.fsm
+  }
 
-      val fsm = game.fsm
+  describe("GameContext")
+  {
 
+    it("should start by deciding on the game type")
+    {
       fsm.enterStartState()
 
       fsm.getState.getName should equal("GameFSM.Starting")
       game.decideGameTypeCalled should equal(true)
     }
 
-    it("should clear board and go to Player1 when game type chosen") {
-      val board = new MockBoard()
-      val player1 = new MockPlayer("X")
-      val player2 = new MockPlayer("O")
-      val game = new MockGame(board, Array(player1, player2))
-
-      val fsm = game.fsm
-      
+    it("should clear board and go to Player1 when game type chosen")
+    {
       fsm.GameTypeChosen()
 
       fsm.getState().getName() should equal ("GameFSM.Player1")
       game.clearBoardCalled should equal(true)
     }
 
-    it("should refresh board state and get next move on first move for Player1") {
-      val board = new MockBoard()
-      val player1 = new MockPlayer("X")
-      val player2 = new MockPlayer("O")
-      val game = new MockGame(board, Array(player1, player2))
-
-      val fsm = game.fsm
-
+    it("should refresh board state and get next move on first move for Player1")
+    {
       fsm.GameTypeChosen()
      
       game.refreshBoardStateCalled should equal (true)
@@ -48,13 +47,8 @@ class GameContextSpec extends Spec with ShouldMatchers {
       game.getNextMoveCalledWith should equal(0, board)
     }
 
-    it("should pick a square for Player1") {
-      val board = new MockBoard()
-      val player1 = new MockPlayer("X")
-      val player2 = new MockPlayer("O")
-      val game = new MockGame(board, Array(player1, player2))
-
-      val fsm = game.fsm
+    it("should pick a square for Player1")
+    {
       fsm.GameTypeChosen()
       fsm.getState().getName() should equal("GameFSM.Player1")
 
@@ -65,13 +59,8 @@ class GameContextSpec extends Spec with ShouldMatchers {
       game.playerMoveCalledWith should equal(0, 0)
     }
 
-    it("should quit on Player1") {
-      val board = new MockBoard()
-      val player1 = new MockPlayer("X")
-      val player2 = new MockPlayer("O")
-      val game = new MockGame(board, Array(player1, player2))
-
-      val fsm = game.fsm
+    it("should quit on Player1")
+    {
       fsm.GameTypeChosen()
       fsm.getState().getName() should equal("GameFSM.Player1")
       
@@ -80,14 +69,8 @@ class GameContextSpec extends Spec with ShouldMatchers {
       fsm.getState.getName() should equal("GameFSM.Ending")
     }
 
-    it("should refresh board state and get next move on first move for Player2") {
-      val board = new MockBoard()
-      val player1 = new MockPlayer("X")
-      val player2 = new MockPlayer("O")
-      val game = new MockGame(board, Array(player1, player2))
-
-      val fsm = game.fsm
-
+    it("should refresh board state and get next move on first move for Player2")
+    {
       fsm.GameTypeChosen()
       game.refreshBoardStateCalled = false
       game.getNextMoveCalled = false
@@ -100,14 +83,8 @@ class GameContextSpec extends Spec with ShouldMatchers {
       game.getNextMoveCalledWith should equal(1, board)
     }
 
-    it("should pick a square for Player2") {
-      val board = new MockBoard()
-      val player1 = new MockPlayer("X")
-      val player2 = new MockPlayer("O")
-      val game = new MockGame(board, Array(player1, player2))
-
-      val fsm = game.fsm
-
+    it("should pick a square for Player2")
+    {
       fsm.GameTypeChosen()
       fsm.PickSquare(board, 6)
 
@@ -119,13 +96,8 @@ class GameContextSpec extends Spec with ShouldMatchers {
       game.playerMoveCalledWith should equal(1, 4)
     }
 
-    it("should quit on Player2") {
-      val board = new MockBoard()
-      val player1 = new MockPlayer("X")
-      val player2 = new MockPlayer("O")
-      val game = new MockGame(board, Array(player1, player2))
-
-      val fsm = game.fsm
+    it("should quit on Player2")
+    {
       fsm.GameTypeChosen()
       fsm.PickSquare(board, 5)
 
@@ -135,13 +107,8 @@ class GameContextSpec extends Spec with ShouldMatchers {
       fsm.getState.getName() should equal("GameFSM.Ending")
     }
 
-    it("should play again") {
-      val board = new MockBoard()
-      val player1 = new MockPlayer("X")
-      val player2 = new MockPlayer("O")
-      val game = new MockGame(board, Array(player1, player2))
-
-      val fsm = game.fsm
+    it("should play again")
+    {
       fsm.GameTypeChosen()
       fsm.GameOver()
 

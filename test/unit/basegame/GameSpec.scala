@@ -4,17 +4,21 @@ import java.io.ByteArrayOutputStream
 import org.scalatest.matchers.ShouldMatchers
 import org.scalatest.Spec
 
-class TestGame(board: Board, val players: Array[Player]) extends Game(board, players) {
+class TestGame(board: Board, val players: Array[Player]) extends Game(board, players)
+{
   override val fsm = new MockGameContext(this)
   def refreshBoardState(board: Board) ={}
   def decidePlayAgain: Unit ={}
   def decideGameType: Unit ={}
 }
 
-class GameSpec extends Spec with ShouldMatchers {
-  describe("Game"){
+class GameSpec extends Spec with ShouldMatchers
+{
+  describe("Game")
+  {
 
-    it("should recognize a valid move"){
+    it("should recognize a valid move")
+    {
       val board = new MockBoard()
       val player1 = new MockPlayer("X")
       val player2 = new MockPlayer("O")
@@ -23,7 +27,8 @@ class GameSpec extends Spec with ShouldMatchers {
       game.isValidMove(board, 0) should be(true)
     }
 
-    it("should recognize an invalid move"){
+    it("should recognize an invalid move")
+    {
       val board = new MockBoard(List(
         "X", null, null,
         null, null, null,
@@ -36,7 +41,8 @@ class GameSpec extends Spec with ShouldMatchers {
       game.isValidMove(board, 0) should be(false)
     }
 
-    it("should start a game"){
+    it("should start a game")
+    {
       val board = new MockBoard()
       val player1 = new MockPlayer("X")
       val player2 = new MockPlayer("O")
@@ -47,7 +53,8 @@ class GameSpec extends Spec with ShouldMatchers {
       game.fsm.getState() should equal(GameFSM.Starting)
     }
 
-    it("should make move on behalf of player"){
+    it("should make move on behalf of player")
+    {
       val board = new MockBoard()
       val player1 = new MockPlayer("X")
       val player2 = new MockPlayer("O")
@@ -58,7 +65,8 @@ class GameSpec extends Spec with ShouldMatchers {
       game.board.positions(0) should equal(null)
     }
 
-    it("should advance the game state if the move is valid"){
+    it("should advance the game state if the move is valid")
+    {
       val board = new MockBoard()
       val player1 = new MockPlayer("X")
       val player2 = new MockPlayer("O")
@@ -69,7 +77,8 @@ class GameSpec extends Spec with ShouldMatchers {
       game.fsm.pickSquareCalled should equal(true)
     }
 
-    it("should not advance the game state if the move is invalid"){
+    it("should not advance the game state if the move is invalid")
+    {
       val board = new MockBoard(List(
         "X", null, null,
         null, null, null,
@@ -83,7 +92,8 @@ class GameSpec extends Spec with ShouldMatchers {
       game.fsm.pickSquareCalled should equal(false)
     }
 
-    it("should get next move from the player if the game is not over"){
+    it("should get next move from the player if the game is not over")
+    {
       val board = new MockBoard()
       val player1 = new MockPlayer("X")
       val player2 = new MockPlayer("O")
@@ -95,7 +105,8 @@ class GameSpec extends Spec with ShouldMatchers {
       game.fsm.pickSquareCalled should equal(true)
     }
 
-    it("should end game if the game is over"){
+    it("should end game if the game is over")
+    {
       val board = new MockBoard(List(
       "X", "X", "X",
       null, null, null,
@@ -110,7 +121,8 @@ class GameSpec extends Spec with ShouldMatchers {
       game.fsm.gameOverCalled should equal(true)
     }
 
-    it("should set the game type") {
+    it("should set the game type")
+    {
       val board = new MockBoard()
       val player1 = new MockPlayer("X")
       val player2 = new MockPlayer("O")

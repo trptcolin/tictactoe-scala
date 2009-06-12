@@ -2,8 +2,10 @@ package trptcolin.tictactoescala.players
 
 import basegame.Player
 
-object PlayerFactory {
-  def generate(playerType: String, mark: String): Player = {
+object PlayerFactory
+{
+  def generate(playerType: String, mark: String): Player =
+  {
     playerType match {
       case "Computer" =>
         new ComputerPlayer(mark)

@@ -4,9 +4,12 @@ import basegame.MockBoard
 import org.scalatest.matchers.ShouldMatchers
 import org.scalatest.Spec
 
-class ComputerPlayerSpec extends Spec with ShouldMatchers {
-  describe("ComputerPlayer"){
-    it("should move to make a horizontal win"){
+class ComputerPlayerSpec extends Spec with ShouldMatchers
+{
+  describe("ComputerPlayer")
+  {
+    it("should move to make a horizontal win")
+    {
       val player = new ComputerPlayer("X")
       val board = new MockBoard(List(
         "X", "X", null,
@@ -18,7 +21,8 @@ class ComputerPlayerSpec extends Spec with ShouldMatchers {
       moveMade should equal(2)
     }
 
-    it("should move to make another horizontal win"){
+    it("should move to make another horizontal win")
+    {
       val player = new ComputerPlayer("X")
       val board = new MockBoard(List(
         null, null, null,
@@ -30,7 +34,8 @@ class ComputerPlayerSpec extends Spec with ShouldMatchers {
       moveMade should equal(8)
     }
 
-    it("should move to make a vertical win"){
+    it("should move to make a vertical win")
+    {
       val player = new ComputerPlayer("X")
       val board = new MockBoard(List(
         "X", null, null,
@@ -42,7 +47,8 @@ class ComputerPlayerSpec extends Spec with ShouldMatchers {
       moveMade should equal(6)
     }
 
-    it("should move to block a vertical win by opponent"){
+    it("should move to block a vertical win by opponent")
+    {
       val player = new ComputerPlayer("O")
       val board = new MockBoard(List(
         "X", null, null,
@@ -54,7 +60,8 @@ class ComputerPlayerSpec extends Spec with ShouldMatchers {
       moveMade should equal(6)
     }
 
-    it("should move to block a horizontal win by opponent"){
+    it("should move to block a horizontal win by opponent")
+    {
       val player = new ComputerPlayer("X")
       val board = new MockBoard(List(
         "X", null, null,
@@ -66,7 +73,8 @@ class ComputerPlayerSpec extends Spec with ShouldMatchers {
       moveMade should equal(5)
     }
 
-    it("should fork if possible"){
+    it("should fork if possible")
+    {
       val player = new ComputerPlayer("X")
       val board = new MockBoard(List(
         "X", "O", "X",
@@ -78,7 +86,8 @@ class ComputerPlayerSpec extends Spec with ShouldMatchers {
       moveMade should equal(6)
     }
 
-    it("should avoid certain losses when X starts in corner"){
+    it("should avoid certain losses when X starts in corner")
+    {
       val player = new ComputerPlayer("O")
       val board = new MockBoard(List(
         "X", null, null,
@@ -90,7 +99,8 @@ class ComputerPlayerSpec extends Spec with ShouldMatchers {
       moveMade should equal(4)
     }
 
-    it("should get in position for a win if the other player makes a mistake"){
+    it("should get in position for a win if the other player makes a mistake")
+    {
       val player = new ComputerPlayer("X")
       val board = new MockBoard(List(
         "X", "O", null,
@@ -102,7 +112,8 @@ class ComputerPlayerSpec extends Spec with ShouldMatchers {
       List(3, 4, 7) should contain(moveMade)
     }
 
-    it("should move first") {
+    it("should move first")
+    {
       val player = new ComputerPlayer("X")
       val board = new MockBoard()
 

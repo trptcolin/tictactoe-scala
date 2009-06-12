@@ -3,10 +3,13 @@ import basegame.{Player, Board}
 
 
 import java.io.EOFException
-class HumanConsolePlayer(val playerMark: String) extends Player {
-  def move(board: Board): Int ={
+class HumanConsolePlayer(val playerMark: String) extends Player
+{
+  def move(board: Board): Int =
+  {
     Console.println("Make your move (0-8): ")
-    try{
+    try
+    {
       val attemptedMove = Console.readInt()
 
       if (board.invalidMove(attemptedMove))
@@ -14,7 +17,8 @@ class HumanConsolePlayer(val playerMark: String) extends Player {
       else
         return attemptedMove
     }
-    catch{
+    catch
+    {
       case ex: NumberFormatException =>
         Console.println("There was a problem with your input! Digits only!")
         move(board)

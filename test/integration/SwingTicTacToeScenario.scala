@@ -4,22 +4,27 @@ import org.scalatest.matchers.ShouldMatchers
 import org.scalatest.{BeforeAndAfter, TestFailedException, Spec}
 import swing.Frame
 
-class SwingTicTacToeScenario extends Spec with ShouldMatchers with BeforeAndAfter {
+class SwingTicTacToeScenario extends Spec with ShouldMatchers with BeforeAndAfter
+{
 
   var mainWindow: JFrameOperator = _
 
-  override def beforeEach() {
-    new ClassReference("SwingTicTacToe").startApplication()
+  override def beforeEach()
+  {
+    new ClassReference("trptcolin.tictactoescala.gui.SwingTicTacToe").startApplication()
     mainWindow = new JFrameOperator("Tic-Tac-Toe")
     JemmyProperties.setCurrentTimeout("ComponentOperator.WaitComponentTimeout", 1000)
   }
-  override def afterAll() {
+  override def afterAll()
+  {
     Thread.sleep(200)
     mainWindow.close()
   }
 
-  describe("SwingTicTacToe") {
-    it("should play a game: computer vs. computer") {
+  describe("SwingTicTacToe")
+  {
+    it("should play a game: computer vs. computer")
+    {
       val computerComputerButton = new JLabelOperator(mainWindow, "Computer (X) vs. Computer (O)")
       computerComputerButton should not be(null)
 
@@ -31,7 +36,8 @@ class SwingTicTacToeScenario extends Spec with ShouldMatchers with BeforeAndAfte
       playAgainButton.clickMouse()
     }
 
-    it("should play a game: human vs. human") {
+    it("should play a game: human vs. human")
+    {
       val humanHumanButton = new JLabelOperator(mainWindow, "Human (X) vs. Human (O)")
       humanHumanButton should not be(null)
 
@@ -56,7 +62,8 @@ class SwingTicTacToeScenario extends Spec with ShouldMatchers with BeforeAndAfte
 
       var playAgainButton: JLabelOperator = null
 
-      intercept[TimeoutExpiredException] {
+      intercept[TimeoutExpiredException]
+      {
         playAgainButton = new JLabelOperator(mainWindow, "Play Again")
         playAgainButton should be(null)
       }

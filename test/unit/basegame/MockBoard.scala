@@ -1,55 +1,67 @@
 package trptcolin.tictactoescala.basegame
 
-class MockBoard(val positions: List[String], var timesMoved: Int) extends Board {
+class MockBoard(val positions: List[String], var timesMoved: Int) extends Board
+{
   var fullStub = false
   var wonStub = false
   var moveCount = 0
   var overStub = false
 
-  def this(timesMoved: Int) = {
+  def this(timesMoved: Int) =
+  {
     this(List[String] (null,null,null,
                        null,null,null,
                        null,null,null),
          timesMoved)
   }
 
-  def this(positions: List[String]) = {
+  def this(positions: List[String]) =
+  {
     this(positions, 0)
   }
 
-  def this() = {
+  def this() =
+  {
     this(0)
   }
 
-  def clear(): Board = {
+  def clear(): Board =
+  {
     new MockBoard()
   }
 
-  override def won: Boolean = {
+  override def won: Boolean =
+  {
     return wonStub || super.won()
   }
 
-  override def full: Boolean = {
+  override def full: Boolean =
+  {
     return fullStub || super.full()
   }
 
-  override def over: Boolean = {
+  override def over: Boolean =
+  {
     return overStub || super.over()
   }
 
-  def setWon(isWon: Boolean) = {
+  def setWon(isWon: Boolean) =
+  {
     wonStub = isWon
   }
 
-  def setFull(isFull: Boolean) = {
+  def setFull(isFull: Boolean) =
+  {
     fullStub = isFull
   }
 
-  def setOver(isOver: Boolean) = {
+  def setOver(isOver: Boolean) =
+  {
     overStub = isOver
   }
 
-  def move (mark: String, position: Int): Board = {
+  def move (mark: String, position: Int): Board =
+  {
     val newBoard = new MockBoard (newPositions(mark, position))
     moveCount += 1
     return newBoard
