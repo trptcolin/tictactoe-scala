@@ -3,4 +3,5 @@
 *.ipr
 *.iws
 
+dist/*
 out/*

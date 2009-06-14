@@ -5,9 +5,12 @@
     <property name="test-integration.dir" value="test/integration" />
     <property name="src.dir" value="src" />
     <property name="build.dir" value="out" />
+    <property name="dist.dir" value="dist" />
 
+    <property name="dist.jar"
+              value="${dist.dir}/tictactoescala.jar" />
     <property name="scala-compiler.jar"
-              value="${lib.dir}/scala-compiler.jar"   />
+              value="${lib.dir}/scala-compiler.jar" />
     <property name="scala-library.jar"
               value="${lib.dir}/scala-library.jar" />
     <property name="scala-swing.jar"
@@ -22,9 +25,16 @@
               value="${lib.dir}/junit-4.5.jar" />
 
     <target name="clean">
-        <delete dir="${build.dir}"></delete>
+        <delete dir="${build.dir}" />
+        <delete dir="${dist.dir}" />
     </target>
 
+    <path id="dist.classpath">
+        <pathelement location="${scala-library.jar}" />
+        <pathelement location="${scala-swing.jar}" />
+        <pathelement location="${statemap.jar}" />
+        <pathelement location="${dist.jar}" />
+    </path>
 
     <path id="build.classpath">
         <pathelement location="${scala-library.jar}" />
@@ -80,7 +90,6 @@
             <classpath refid="test.classpath" />
             <include name="**/*.scala" />
         </scalac>
-
     </target>
 
     <target name="test" depends="clean, init, build.compile, test.compile">
@@ -90,18 +99,28 @@
     </target>
 
     <target name="test-integration" depends="clean, init, build.compile, test-integration.compile">
-        <exec executable="scala">
-            <arg line="-cp ${statemap.jar}:${scalatest.jar}:${jemmy.jar}:${build.dir}" />
-            <arg line="org.scalatest.tools.Runner" />
+        <java classname="org.scalatest.tools.Runner" fork="true">
+            <classpath refid="test.classpath" />
             <arg line="-p ${build.dir}" />
-            <arg line="-o" />
-        </exec>
+            <arg value="-g" />
+        </java>
     </target>
 
-    <target name="run" depends="clean, init, build.compile">
-        <exec executable="scala">
-            <arg line="-cp ${statemap.jar}:${build.dir}" />
-            <arg line="trptcolin.tictactoescala.gui.SwingTicTacToe" />
-        </exec>
+    <target name="jar" depends="clean, init, build.compile">
+        <mkdir dir="${dist.dir}" />
+        <jar destfile="${dist.jar}" basedir="${build.dir}">
+        </jar>
+    </target>
+
+    <target name="run" depends="jar">
+        <java classname="trptcolin.tictactoescala.gui.SwingTicTacToe" fork="true">
+            <classpath refid="dist.classpath" />
+        </java>
+    </target>
+
+    <target name="run-console" depends="jar">
+        <java classname="trptcolin.tictactoescala.console.ConsoleTicTacToe" fork="true">
+            <classpath refid="dist.classpath" />
+        </java>
     </target>
 </project>
